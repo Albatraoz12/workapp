@@ -9,12 +9,36 @@ const RegisterForm = () => {
   const [password, setPassword] = useState("");
   const [workPlace, setWorkPlace] = useState("");
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!name || !email || !password || !workPlace) {
       setError("All feilds are necesary!");
       return;
+    }
+
+    try {
+      const res = await fetch("api/register", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          password,
+          workPlace,
+        }),
+      });
+
+      if (res.ok) {
+        const form = e.target as HTMLFormElement;
+        form.reset();
+      } else {
+        console.log("User registration failed");
+      }
+    } catch (error) {
+      console.log("Error during registration ", error);
     }
   };
 
