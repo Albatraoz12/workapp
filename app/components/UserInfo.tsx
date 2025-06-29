@@ -1,19 +1,39 @@
 "use client";
 import React from "react";
 import { signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
+
+// Utöka session typen lokalt
+interface ExtendedUser {
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
+  workPlace?: string;
+}
+
+interface ExtendedSession {
+  user?: ExtendedUser;
+}
 
 const UserInfo = () => {
+  const { data: session } = useSession();
+  const extendedSession = session as ExtendedSession;
+
+  console.log(session);
+
   return (
-    <div className="grid place-items-center h-sscreen">
+    <div className="grid place-items-center h-screen">
       <div className="shadow-lg p-8 bg-zinc-300/10 flex flex-col gap-2 my-6">
         <div>
-          Name: <span className="font-bold">Dimosthenis</span>
+          Name: <span className="font-bold">{extendedSession?.user?.name}</span>
         </div>
         <div>
-          Email: <span className="font-bold">d123@gmail.com</span>
+          Email:{" "}
+          <span className="font-bold">{extendedSession?.user?.email}</span>
         </div>
         <div>
-          Work Place: <span className="font-bold">Karolinska</span>
+          Work Place:{" "}
+          <span className="font-bold">{extendedSession?.user?.workPlace}</span>
         </div>
         <button
           onClick={() => signOut()}
