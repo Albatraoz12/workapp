@@ -1,5 +1,7 @@
 "use client";
 
+import { Camera } from "lucide-react";
+
 interface AddItemProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -11,7 +13,7 @@ const AddItem: React.FC<AddItemProps> = ({ setOpen }) => {
         <h1 className="text-xl font-bold">Add Item</h1>
         <button
           onClick={() => setOpen(false)}
-          className="bg-green-500 font-bold text-white px-6 py-2 rounded hover:bg-green-600"
+          className="bg-green-500 font-bold text-white px-6 py-2 rounded hover:bg-green-600 cursor-pointer"
         >
           X
         </button>
@@ -66,6 +68,18 @@ const AddItem: React.FC<AddItemProps> = ({ setOpen }) => {
             name="oderValue"
             placeholder="When to order the item"
             className="p-2 border border-gray-300 rounded"
+          />
+        </div>
+        <div className="flex justify-between items-center w-full">
+          <button
+            className="bg-green-500 font-bold text-white px-6 py-2 rounded hover:bg-green-600 cursor-pointer"
+            type="button"
+          >
+            Submit
+          </button>
+          <Camera
+            color="white"
+            className="w-auto h-auto bg-green-500 text-white p-2 rounded hover:bg-green-600 cursor-pointer"
           />
         </div>
       </form>
