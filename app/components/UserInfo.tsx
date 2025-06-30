@@ -1,9 +1,9 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
+import AddItem from "./AddItem";
 
-// Utöka session typen lokalt
 interface ExtendedUser {
   name?: string | null;
   email?: string | null;
@@ -16,13 +16,12 @@ interface ExtendedSession {
 }
 
 const UserInfo = () => {
+  const [open, setOpen] = useState(false);
   const { data: session } = useSession();
   const extendedSession = session as ExtendedSession;
 
-  console.log(session);
-
   return (
-    <div className="grid place-items-center h-screen">
+    <div className="flex flex-col mx-2 items-center">
       <div className="shadow-lg p-8 bg-zinc-300/10 flex flex-col gap-2 my-6">
         <div>
           Name: <span className="font-bold">{extendedSession?.user?.name}</span>
@@ -41,6 +40,18 @@ const UserInfo = () => {
         >
           Log Out
         </button>
+      </div>
+      <div>
+        {!open ? (
+          <button
+            onClick={() => setOpen(true)}
+            className="bg-green-500 font-bold text-white px-6 py-2 mt-3 cursor-pointer"
+          >
+            Add Item
+          </button>
+        ) : (
+          <AddItem setOpen={setOpen} />
+        )}
       </div>
     </div>
   );
