@@ -8,10 +8,25 @@ interface AddItemProps {
 }
 
 const AddItem: React.FC<AddItemProps> = ({ setOpen }) => {
-  const [value, setValue] = useState("");
+  const [orderItem, setOrderItem] = useState({
+    productName: "",
+    supplierName: "",
+    orderDate: "",
+    quantity: "",
+    deliveryLocation: "6",
+  });
 
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setValue(e.target.value);
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
+  ) => {
+    const { name, value } = e.target;
+    setOrderItem({
+      ...orderItem,
+      [name]: value,
+    });
+    console.log(orderItem);
   };
 
   return (
@@ -27,72 +42,81 @@ const AddItem: React.FC<AddItemProps> = ({ setOpen }) => {
       </div>
       <form className="flex flex-col items-center gap-3">
         <div className="flex flex-col">
-          <label htmlFor="name" className="mb-1 font-medium">
+          <label htmlFor="productName" className="mb-1 font-medium">
             Item name
           </label>
           <input
             type="text"
-            id="name"
-            name="name"
+            id="productName"
+            name="productName"
+            onChange={handleChange}
             placeholder="Name of the Item"
             className="p-2 border border-gray-300 rounded"
           />
         </div>
 
         <div className="flex flex-col">
-          <label htmlFor="cname" className="mb-1 font-medium">
+          <label htmlFor="supplierName" className="mb-1 font-medium">
             Company Name
           </label>
           <input
             type="text"
-            id="cname"
-            name="cname"
+            id="supplierName"
+            name="supplierName"
+            onChange={handleChange}
             placeholder="Company name"
             className="p-2 border border-gray-300 rounded"
           />
         </div>
 
         <div className="flex flex-col">
-          <label htmlFor="whenOder" className="mb-1 font-medium">
+          <label htmlFor="orderDate" className="mb-1 font-medium">
             When to Order
           </label>
           <input
             type="text"
-            id="whenOder"
-            name="whenOder"
+            id="orderDate"
+            name="orderDate"
+            onChange={handleChange}
             placeholder="When to order the item"
             className="p-2 border border-gray-300 rounded"
           />
         </div>
 
         <div className="flex flex-col">
-          <label htmlFor="oderValue" className="mb-1 font-medium">
+          <label htmlFor="quantity" className="mb-1 font-medium">
             How many to order
           </label>
           <input
             type="text"
-            id="oderValue"
-            name="oderValue"
+            id="quantity"
+            name="quantity"
+            onChange={handleChange}
             placeholder="When to order the item"
             className="p-2 border border-gray-300 rounded"
           />
         </div>
-        <div className="relative w-full">
-          <select
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
-            required
-            className="block appearance-none w-full bg-white border border-gray-300 text-gray-700 p-3 rounded leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
+        <div className="relative w-full flex flex-col mb-4">
+          <label
+            htmlFor="storedLocation"
+            className="mb-1 font-medium text-gray-700"
           >
-            <option value="" disabled hidden>
-              Välj ett alternativ
-            </option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-          </select>
-
-          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
-            <ChevronDown size={20} />
+            Choose a floor
+          </label>
+          <div className="relative w-full">
+            <select
+              onChange={handleChange}
+              required
+              name="storedLocation"
+              id="storedLocation"
+              className="block appearance-none w-full bg-white border border-gray-300 text-gray-700 p-3 pr-10 rounded leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" // Added pr-10 for padding on the right to make space for the icon
+            >
+              <option value="6">6</option>
+              <option value="7">7</option>
+            </select>
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
+              <ChevronDown size={20} />
+            </div>
           </div>
         </div>
         <div className="flex justify-between items-center w-full">
