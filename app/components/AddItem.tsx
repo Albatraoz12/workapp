@@ -1,6 +1,6 @@
 "use client";
 
-import { Camera, ChevronDown } from "lucide-react";
+import { Camera, ChevronDown, Send, SendHorizontal } from "lucide-react";
 import { useState } from "react";
 
 interface AddItemProps {
@@ -181,10 +181,10 @@ const AddItem: React.FC<AddItemProps> = ({ setOpen }) => {
 
         <div className="flex justify-between items-center w-full">
           <button
-            className="bg-green-500 font-bold text-white px-6 py-2 rounded hover:bg-green-600 cursor-pointer"
+            className="flex items-center gap-1 bg-green-500 font-bold text-white px-6 py-2 rounded hover:bg-green-600 cursor-pointer"
             type="submit"
           >
-            Submit
+            Submit <SendHorizontal size={20} />
           </button>
           <Camera
             color="white"
