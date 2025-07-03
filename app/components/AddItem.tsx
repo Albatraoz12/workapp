@@ -7,13 +7,21 @@ interface AddItemProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+interface OrderItem {
+  productName: string;
+  supplierName: string;
+  orderDate: string;
+  quantity: string;
+  storedLocation: "" | number;
+}
+
 const AddItem: React.FC<AddItemProps> = ({ setOpen }) => {
-  const [orderItem, setOrderItem] = useState({
+  const [orderItem, setOrderItem] = useState<OrderItem>({
     productName: "",
     supplierName: "",
     orderDate: "",
     quantity: "",
-    deliveryLocation: "6",
+    storedLocation: "",
   });
 
   const handleChange = (
@@ -22,26 +30,64 @@ const AddItem: React.FC<AddItemProps> = ({ setOpen }) => {
     >
   ) => {
     const { name, value } = e.target;
-    setOrderItem({
-      ...orderItem,
-      [name]: value,
-    });
-    console.log(orderItem);
+
+    setOrderItem((prev) => ({
+      ...prev,
+      [name]:
+        name === "storedLocation" && value !== "" ? parseInt(value, 10) : value,
+    }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      const { productName, supplierName, orderDate, quantity, storedLocation } =
+        orderItem;
+      if (
+        !productName ||
+        !supplierName ||
+        !orderDate ||
+        !quantity ||
+        storedLocation === ""
+      ) {
+        alert("All feilds are required");
+        return;
+      }
+
+      console.log("Form submitted with data:", orderItem);
+
+      setOrderItem({
+        productName: "",
+        supplierName: "",
+        orderDate: "",
+        quantity: "",
+        storedLocation: "",
+      });
+
+      setOpen(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <div className="w-full max-w-md mx-auto p-6 shadow-lg bg-zinc-300/10">
-      <div className="flex justify-between">
+      <div className="flex justify-between mb-4">
         <h1 className="text-xl font-bold">Add Item</h1>
         <button
           onClick={() => setOpen(false)}
+          type="button"
           className="bg-green-500 font-bold text-white px-6 py-2 rounded hover:bg-green-600 cursor-pointer"
         >
           X
         </button>
       </div>
-      <form className="flex flex-col items-center gap-3">
-        <div className="flex flex-col">
+      <form
+        className="flex flex-col items-center gap-3"
+        onSubmit={handleSubmit}
+      >
+        <div className="flex flex-col w-full">
           <label htmlFor="productName" className="mb-1 font-medium">
             Item name
           </label>
@@ -50,12 +96,14 @@ const AddItem: React.FC<AddItemProps> = ({ setOpen }) => {
             id="productName"
             name="productName"
             onChange={handleChange}
+            value={orderItem.productName}
             placeholder="Name of the Item"
             className="p-2 border border-gray-300 rounded"
+            required
           />
         </div>
 
-        <div className="flex flex-col">
+        <div className="flex flex-col w-full">
           <label htmlFor="supplierName" className="mb-1 font-medium">
             Company Name
           </label>
@@ -64,12 +112,14 @@ const AddItem: React.FC<AddItemProps> = ({ setOpen }) => {
             id="supplierName"
             name="supplierName"
             onChange={handleChange}
+            value={orderItem.supplierName}
             placeholder="Company name"
             className="p-2 border border-gray-300 rounded"
+            required
           />
         </div>
 
-        <div className="flex flex-col">
+        <div className="flex flex-col w-full">
           <label htmlFor="orderDate" className="mb-1 font-medium">
             When to Order
           </label>
@@ -78,12 +128,14 @@ const AddItem: React.FC<AddItemProps> = ({ setOpen }) => {
             id="orderDate"
             name="orderDate"
             onChange={handleChange}
+            value={orderItem.orderDate}
             placeholder="When to order the item"
             className="p-2 border border-gray-300 rounded"
+            required
           />
         </div>
 
-        <div className="flex flex-col">
+        <div className="flex flex-col w-full">
           <label htmlFor="quantity" className="mb-1 font-medium">
             How many to order
           </label>
@@ -92,10 +144,13 @@ const AddItem: React.FC<AddItemProps> = ({ setOpen }) => {
             id="quantity"
             name="quantity"
             onChange={handleChange}
-            placeholder="When to order the item"
+            value={orderItem.quantity}
+            placeholder="Quantity to order"
             className="p-2 border border-gray-300 rounded"
+            required
           />
         </div>
+
         <div className="relative w-full flex flex-col mb-4">
           <label
             htmlFor="storedLocation"
@@ -106,11 +161,15 @@ const AddItem: React.FC<AddItemProps> = ({ setOpen }) => {
           <div className="relative w-full">
             <select
               onChange={handleChange}
-              required
+              value={orderItem.storedLocation.toString()}
               name="storedLocation"
               id="storedLocation"
-              className="block appearance-none w-full bg-white border border-gray-300 text-gray-700 p-3 pr-10 rounded leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" // Added pr-10 for padding on the right to make space for the icon
+              className="block appearance-none w-full bg-white border border-gray-300 text-gray-700 p-3 pr-10 rounded leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
+              required
             >
+              <option value="" disabled hidden>
+                Choose a floor
+              </option>
               <option value="6">6</option>
               <option value="7">7</option>
             </select>
@@ -119,10 +178,11 @@ const AddItem: React.FC<AddItemProps> = ({ setOpen }) => {
             </div>
           </div>
         </div>
+
         <div className="flex justify-between items-center w-full">
           <button
             className="bg-green-500 font-bold text-white px-6 py-2 rounded hover:bg-green-600 cursor-pointer"
-            type="button"
+            type="submit"
           >
             Submit
           </button>
