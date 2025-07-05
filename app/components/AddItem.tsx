@@ -1,6 +1,6 @@
 "use client";
 
-import { Camera, ChevronDown, Send, SendHorizontal } from "lucide-react";
+import { Camera, ChevronDown, SendHorizontal } from "lucide-react";
 import { useState } from "react";
 
 interface AddItemProps {
@@ -10,7 +10,7 @@ interface AddItemProps {
 interface OrderItem {
   productName: string;
   supplierName: string;
-  orderDate: string;
+  orderWhen: string;
   quantity: string;
   storedLocation: "" | number;
 }
@@ -19,7 +19,7 @@ const AddItem: React.FC<AddItemProps> = ({ setOpen }) => {
   const [orderItem, setOrderItem] = useState<OrderItem>({
     productName: "",
     supplierName: "",
-    orderDate: "",
+    orderWhen: "",
     quantity: "",
     storedLocation: "",
   });
@@ -42,16 +42,16 @@ const AddItem: React.FC<AddItemProps> = ({ setOpen }) => {
     e.preventDefault();
 
     try {
-      const { productName, supplierName, orderDate, quantity, storedLocation } =
+      const { productName, supplierName, orderWhen, quantity, storedLocation } =
         orderItem;
       if (
         !productName ||
         !supplierName ||
-        !orderDate ||
+        !orderWhen ||
         !quantity ||
         storedLocation === ""
       ) {
-        alert("All feilds are required");
+        alert("All fields are required");
         return;
       }
 
@@ -60,7 +60,7 @@ const AddItem: React.FC<AddItemProps> = ({ setOpen }) => {
       setOrderItem({
         productName: "",
         supplierName: "",
-        orderDate: "",
+        orderWhen: "",
         quantity: "",
         storedLocation: "",
       });
@@ -120,15 +120,15 @@ const AddItem: React.FC<AddItemProps> = ({ setOpen }) => {
         </div>
 
         <div className="flex flex-col w-full">
-          <label htmlFor="orderDate" className="mb-1 font-medium">
+          <label htmlFor="orderWhen" className="mb-1 font-medium">
             When to Order
           </label>
           <input
             type="text"
-            id="orderDate"
-            name="orderDate"
+            id="orderWhen"
+            name="orderWhen"
             onChange={handleChange}
-            value={orderItem.orderDate}
+            value={orderItem.orderWhen}
             placeholder="When to order the item"
             className="p-2 border border-gray-300 rounded"
             required
