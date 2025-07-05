@@ -1,18 +1,11 @@
 "use client";
 
+import { OrderItem } from "@/interface/userInterface";
 import { Camera, ChevronDown, SendHorizontal } from "lucide-react";
 import { useState } from "react";
 
 interface AddItemProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-interface OrderItem {
-  productName: string;
-  supplierName: string;
-  orderWhen: string;
-  quantity: string;
-  storedLocation: "" | number;
 }
 
 const AddItem: React.FC<AddItemProps> = ({ setOpen }) => {

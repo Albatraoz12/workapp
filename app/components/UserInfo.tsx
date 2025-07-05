@@ -4,17 +4,7 @@ import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import AddItem from "./AddItem";
 import { PackagePlus, Box } from "lucide-react";
-
-interface ExtendedUser {
-  name?: string | null;
-  email?: string | null;
-  image?: string | null;
-  workPlace?: string;
-}
-
-interface ExtendedSession {
-  user?: ExtendedUser;
-}
+import { ExtendedSession } from "@/interface/userInterface";
 
 const UserInfo = () => {
   const [open, setOpen] = useState(false);
