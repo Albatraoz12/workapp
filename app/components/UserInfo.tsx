@@ -5,9 +5,11 @@ import { useSession } from "next-auth/react";
 import AddItem from "./AddItem";
 import { PackagePlus, Box } from "lucide-react";
 import { ExtendedSession } from "@/interface/userInterface";
+import ShowItems from "./ShowItems";
 
 const UserInfo = () => {
-  const [open, setOpen] = useState(false);
+  const [openAddItem, setOpenAddItem] = useState(false);
+  const [openInventory, setOpenInventory] = useState(false);
   const { data: session } = useSession();
   const extendedSession = session as ExtendedSession;
 
@@ -56,21 +58,30 @@ const UserInfo = () => {
       <section className="flex items-center gap-3 w-full justify-center">
         <div>
           <button
-            onClick={() => setOpen((prevOpen) => !prevOpen)}
+            onClick={() => setOpenAddItem((prevOpen) => !prevOpen)}
             className="bg-green-500 font-bold text-white px-6 py-2 mt-3 cursor-pointer flex gap-2 items-center"
           >
             Add Item <PackagePlus size={25} />
           </button>
         </div>
         <div>
-          <button className="bg-green-500 font-bold text-white px-4 py-2 mt-3 cursor-pointer flex gap-2 items-center">
+          <button
+            onClick={() => setOpenInventory((prev) => !prev)}
+            className="bg-green-500 font-bold text-white px-4 py-2 mt-3 cursor-pointer flex gap-2 items-center"
+          >
             Show Inventory <Box size={25} />
           </button>
         </div>
       </section>
-      {open && (
+      {openAddItem && (
         <section className="mt-5">
-          <AddItem setOpen={setOpen} />
+          <AddItem setOpen={setOpenAddItem} />
+        </section>
+      )}
+
+      {openInventory && (
+        <section className="mt-5">
+          <ShowItems setOpen={setOpenInventory} items={items} />
         </section>
       )}
     </div>

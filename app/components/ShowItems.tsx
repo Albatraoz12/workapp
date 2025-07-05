@@ -1,7 +1,6 @@
 import React from "react";
 
-const ShowItems = ({ items }: any) => {
-  console.log(items);
+const ShowItems = ({ items, setOpen }: any) => {
   return <div>ShowItems</div>;
 };
 
