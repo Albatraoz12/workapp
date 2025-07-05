@@ -1,8 +1,8 @@
 import { connectMongoDB } from "@/lib/mongodb";
 import Item from "@/models/item";
 import { NextResponse } from "next/server";
-import { authOptions } from "../auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
+import { authOptions } from "../../auth/[...nextauth]/route";
 
 export async function POST(req: Request) {
   try {

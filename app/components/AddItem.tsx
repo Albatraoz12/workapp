@@ -56,7 +56,7 @@ const AddItem: React.FC<AddItemProps> = ({ setOpen }) => {
       }
 
       console.log("Form submitted with data:", orderItem);
-      const res = await fetch("api/addItem", {
+      const res = await fetch("api/items/addItem", {
         method: "POST",
         headers: {
           "Content-type": "application/json",
