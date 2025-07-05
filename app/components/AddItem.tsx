@@ -38,7 +38,7 @@ const AddItem: React.FC<AddItemProps> = ({ setOpen }) => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
@@ -56,16 +56,33 @@ const AddItem: React.FC<AddItemProps> = ({ setOpen }) => {
       }
 
       console.log("Form submitted with data:", orderItem);
-
-      setOrderItem({
-        productName: "",
-        supplierName: "",
-        orderWhen: "",
-        quantity: "",
-        storedLocation: "",
+      const res = await fetch("api/addItem", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          productName,
+          supplierName,
+          orderWhen,
+          quantity,
+          storedLocation,
+        }),
       });
 
-      setOpen(false);
+      if (res.ok) {
+        setOrderItem({
+          productName: "",
+          supplierName: "",
+          orderWhen: "",
+          quantity: "",
+          storedLocation: "",
+        });
+
+        setOpen(false);
+      } else {
+        console.log("Item registration failed");
+      }
     } catch (error) {
       console.log(error);
     }
