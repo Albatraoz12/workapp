@@ -1,9 +1,9 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import AddItem from "./AddItem";
-import { PackagePlus } from "lucide-react";
+import { PackagePlus, Box } from "lucide-react";
 
 interface ExtendedUser {
   name?: string | null;
@@ -20,6 +20,27 @@ const UserInfo = () => {
   const [open, setOpen] = useState(false);
   const { data: session } = useSession();
   const extendedSession = session as ExtendedSession;
+
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        const res = await fetch("/api/items/getAllItems");
+        const data = await res.json();
+        setItems(data.message);
+      } catch (error) {
+        console.error("Failed to fetch items", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchItems();
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
 
   return (
     <div className="flex flex-col mx-2 items-center">
@@ -42,18 +63,26 @@ const UserInfo = () => {
           Log Out
         </button>
       </div>
-      <div>
-        {!open ? (
+      <section className="flex items-center gap-3 w-full justify-center">
+        <div>
           <button
-            onClick={() => setOpen(true)}
+            onClick={() => setOpen((prevOpen) => !prevOpen)}
             className="bg-green-500 font-bold text-white px-6 py-2 mt-3 cursor-pointer flex gap-2 items-center"
           >
             Add Item <PackagePlus size={25} />
           </button>
-        ) : (
+        </div>
+        <div>
+          <button className="bg-green-500 font-bold text-white px-4 py-2 mt-3 cursor-pointer flex gap-2 items-center">
+            Show Inventory <Box size={25} />
+          </button>
+        </div>
+      </section>
+      {open && (
+        <section className="mt-5">
           <AddItem setOpen={setOpen} />
-        )}
-      </div>
+        </section>
+      )}
     </div>
   );
 };
