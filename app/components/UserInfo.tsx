@@ -58,7 +58,10 @@ const UserInfo = () => {
       <section className="flex items-center flex-wrap gap-3 w-full justify-center">
         <div>
           <button
-            onClick={() => setOpenAddItem((prevOpen) => !prevOpen)}
+            onClick={() => {
+              setOpenAddItem((prevOpen) => !prevOpen);
+              setOpenInventory(false);
+            }}
             className="bg-green-500 font-bold text-white px-6 py-2 mt-3 cursor-pointer flex gap-2 items-center"
           >
             Add Item <PackagePlus size={25} />
@@ -66,7 +69,10 @@ const UserInfo = () => {
         </div>
         <div>
           <button
-            onClick={() => setOpenInventory((prev) => !prev)}
+            onClick={() => {
+              setOpenInventory((prev) => !prev);
+              setOpenAddItem(false);
+            }}
             className="bg-green-500 font-bold text-white px-4 py-2 mt-3 cursor-pointer flex gap-2 items-center"
           >
             Show Inventory <Box size={25} />
@@ -74,7 +80,7 @@ const UserInfo = () => {
         </div>
       </section>
       {openAddItem && (
-        <section className="mt-5">
+        <section className="mt-5 max-w-full">
           <AddItem setOpen={setOpenAddItem} />
         </section>
       )}
