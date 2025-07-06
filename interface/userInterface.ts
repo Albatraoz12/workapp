@@ -10,6 +10,7 @@ export interface ExtendedSession {
 }
 
 export interface OrderItem {
+  _id?: string;
   productName: string;
   supplierName: string;
   orderWhen: string;
