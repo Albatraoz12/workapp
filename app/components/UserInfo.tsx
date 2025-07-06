@@ -35,7 +35,7 @@ const UserInfo = () => {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <div className="flex flex-col mx-2 items-center">
+    <div className="flex flex-col items-center mx-auto">
       <div className="shadow-lg p-8 bg-zinc-300/10 flex flex-col gap-2 my-6">
         <div>
           Name: <span className="font-bold">{extendedSession?.user?.name}</span>
@@ -55,7 +55,7 @@ const UserInfo = () => {
           Log Out
         </button>
       </div>
-      <section className="flex items-center gap-3 w-full justify-center">
+      <section className="flex items-center flex-wrap gap-3 w-full justify-center">
         <div>
           <button
             onClick={() => setOpenAddItem((prevOpen) => !prevOpen)}
@@ -80,7 +80,7 @@ const UserInfo = () => {
       )}
 
       {openInventory && (
-        <section className="mt-5">
+        <section className="mt-5 max-w-full">
           <ShowItems setOpen={setOpenInventory} items={items} />
         </section>
       )}
