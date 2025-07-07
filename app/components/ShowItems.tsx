@@ -1,22 +1,9 @@
 import { OrderItem } from "@/interface/userInterface";
+import { deleteItem } from "@/lib/helper";
 import { RefreshCcwDot, Trash } from "lucide-react";
 import React from "react";
 
 const ShowItems = ({ items, setOpen }: any) => {
-  const deleteItem = async (id: any) => {
-    console.log(id);
-    const res = await fetch(`api/items/deleteItem/${id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-type": "application-json",
-      },
-    });
-
-    const data = await res.json();
-    console.log(data);
-    return data;
-  };
-
   return (
     <div className="mx-auto p-6 overflow-auto rounded-lg shadow">
       <h2 className="text-2xl font-bold mb-4">Inventory</h2>
