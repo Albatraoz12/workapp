@@ -1,4 +1,5 @@
 import { OrderItem } from "@/interface/userInterface";
+import { RefreshCcwDot, Trash } from "lucide-react";
 import React from "react";
 
 const ShowItems = ({ items, setOpen }: any) => {
@@ -21,6 +22,12 @@ const ShowItems = ({ items, setOpen }: any) => {
               <th className="w-34 whitespace-nowrap p-3 text-smm font-semibold tracking-wide text-left">
                 Quantity
               </th>
+              <th className="w-34 whitespace-nowrap p-3 text-smm font-semibold tracking-wide text-left">
+                Update
+              </th>
+              <th className="w-34 whitespace-nowrap p-3 text-smm font-semibold tracking-wide text-left">
+                Delete
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
@@ -37,6 +44,16 @@ const ShowItems = ({ items, setOpen }: any) => {
                 </td>
                 <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
                   {item.quantity}
+                </td>
+                <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
+                  <button className="bg-yellow-300 cursor-pointer p-2 rounded-lg font-bold">
+                    <RefreshCcwDot size={20} />
+                  </button>
+                </td>
+                <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
+                  <button className="bg-red-600 cursor-pointer p-2 rounded-lg font-bold text-white">
+                    <Trash size={20} />
+                  </button>
                 </td>
               </tr>
             ))}
