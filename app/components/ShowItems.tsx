@@ -3,7 +3,7 @@ import { deleteItem } from "@/lib/helper";
 import { RefreshCcwDot, Trash } from "lucide-react";
 import React from "react";
 
-const ShowItems = ({ items, setOpen }: any) => {
+const ShowItems = ({ items, setOpen, handleDeleteItem }: any) => {
   return (
     <div className="mx-auto p-6 overflow-auto rounded-lg shadow">
       <h2 className="text-2xl font-bold mb-4">Inventory</h2>
@@ -54,7 +54,7 @@ const ShowItems = ({ items, setOpen }: any) => {
                 <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
                   <button
                     className="bg-red-600 cursor-pointer p-2 rounded-lg font-bold text-white"
-                    onClick={() => deleteItem(item._id)}
+                    onClick={() => handleDeleteItem(item._id)}
                   >
                     <Trash size={20} />
                   </button>

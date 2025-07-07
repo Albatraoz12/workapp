@@ -6,6 +6,7 @@ import AddItem from "./AddItem";
 import { PackagePlus, Box } from "lucide-react";
 import { ExtendedSession } from "@/interface/userInterface";
 import ShowItems from "./ShowItems";
+import { deleteItem } from "@/lib/helper";
 
 const UserInfo = () => {
   const [openAddItem, setOpenAddItem] = useState(false);
@@ -31,6 +32,15 @@ const UserInfo = () => {
 
     fetchItems();
   }, []);
+
+  const handleDeleteItem = async (id: string) => {
+    try {
+      await deleteItem(id);
+      setItems((prevItems) => prevItems.filter((item: any) => item._id !== id));
+    } catch (error) {
+      console.error("Failed to delete item", error);
+    }
+  };
 
   if (loading) return <div>Loading...</div>;
 
@@ -87,7 +97,11 @@ const UserInfo = () => {
 
       {openInventory && (
         <section className="mt-5 max-w-full">
-          <ShowItems setOpen={setOpenInventory} items={items} />
+          <ShowItems
+            setOpen={setOpenInventory}
+            items={items}
+            handleDeleteItem={handleDeleteItem}
+          />
         </section>
       )}
     </div>
