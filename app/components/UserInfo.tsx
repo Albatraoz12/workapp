@@ -20,19 +20,19 @@ const UserInfo = () => {
   const { data: session } = useSession();
   const extendedSession = session as ExtendedSession;
 
-  useEffect(() => {
-    const fetchItems = async () => {
-      try {
-        const res = await fetch("/api/items/getAllItems");
-        const data = await res.json();
-        setItems(data.message);
-      } catch (error) {
-        console.error("Failed to fetch items", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchItems = async () => {
+    try {
+      const res = await fetch("/api/items/getAllItems");
+      const data = await res.json();
+      setItems(data.message);
+    } catch (error) {
+      console.error("Failed to fetch items", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchItems();
   }, []);
 
@@ -107,7 +107,7 @@ const UserInfo = () => {
       </section>
       {openAddItem && (
         <section className="mt-5 max-w-full">
-          <AddItem setOpen={setOpenAddItem} />
+          <AddItem setOpen={setOpenAddItem} refreshItems={fetchItems} />
         </section>
       )}
 

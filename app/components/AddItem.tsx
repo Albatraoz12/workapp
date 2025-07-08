@@ -6,9 +6,10 @@ import { useState } from "react";
 
 interface AddItemProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  refreshItems: () => void;
 }
 
-const AddItem: React.FC<AddItemProps> = ({ setOpen }) => {
+const AddItem: React.FC<AddItemProps> = ({ setOpen, refreshItems }) => {
   const [orderItem, setOrderItem] = useState<OrderItem>({
     productName: "",
     supplierName: "",
@@ -72,6 +73,7 @@ const AddItem: React.FC<AddItemProps> = ({ setOpen }) => {
           storedLocation: "",
         });
 
+        refreshItems();
         setOpen(false);
       } else {
         console.log("Item registration failed");
