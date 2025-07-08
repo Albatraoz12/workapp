@@ -7,15 +7,18 @@ import { PackagePlus, Box } from "lucide-react";
 import { ExtendedSession } from "@/interface/userInterface";
 import ShowItems from "./ShowItems";
 import { deleteItem } from "@/lib/helper";
+import DeleteModal from "./modal/DeleteModal";
 
 const UserInfo = () => {
   const [openAddItem, setOpenAddItem] = useState(false);
   const [openInventory, setOpenInventory] = useState(false);
-  const { data: session } = useSession();
-  const extendedSession = session as ExtendedSession;
-
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const { data: session } = useSession();
+  const extendedSession = session as ExtendedSession;
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -46,6 +49,19 @@ const UserInfo = () => {
 
   return (
     <div className="flex flex-col items-center mx-auto">
+      {showDeleteModal && (
+        <DeleteModal
+          isOpen={showDeleteModal}
+          onCancel={() => setShowDeleteModal(false)}
+          onConfirm={async () => {
+            if (selectedItemId) {
+              await handleDeleteItem(selectedItemId);
+              setShowDeleteModal(false);
+              setSelectedItemId(null);
+            }
+          }}
+        />
+      )}
       <div className="shadow-lg p-8 bg-zinc-300/10 flex flex-col gap-2 my-6">
         <div>
           Name: <span className="font-bold">{extendedSession?.user?.name}</span>
@@ -100,7 +116,8 @@ const UserInfo = () => {
           <ShowItems
             setOpen={setOpenInventory}
             items={items}
-            handleDeleteItem={handleDeleteItem}
+            setSelectedItemId={setSelectedItemId}
+            setShowDeleteModal={setShowDeleteModal}
           />
         </section>
       )}

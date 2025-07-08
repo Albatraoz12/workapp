@@ -1,9 +1,20 @@
 import { OrderItem } from "@/interface/userInterface";
-import { deleteItem } from "@/lib/helper";
 import { RefreshCcwDot, Trash } from "lucide-react";
 import React from "react";
 
-const ShowItems = ({ items, setOpen, handleDeleteItem }: any) => {
+interface ShowItemsProps {
+  items: OrderItem[];
+  setOpen: (value: boolean) => void;
+  setSelectedItemId: (id: string) => void;
+  setShowDeleteModal: (value: boolean) => void;
+}
+
+const ShowItems: React.FC<ShowItemsProps> = ({
+  items,
+  setOpen,
+  setSelectedItemId,
+  setShowDeleteModal,
+}) => {
   return (
     <div className="mx-auto p-6 overflow-auto rounded-lg shadow">
       <h2 className="text-2xl font-bold mb-4">Inventory</h2>
@@ -11,24 +22,18 @@ const ShowItems = ({ items, setOpen, handleDeleteItem }: any) => {
         <table className="w-full">
           <thead className="bg-gray-50 border-b-2 border-gray-200">
             <tr>
-              <th className="w-34 whitespace-nowrap p-3 text-smm font-semibold tracking-wide text-left">
+              <th className="p-3 text-smm font-semibold text-left">
                 Product Name
               </th>
-              <th className="w-37 whitespace-nowrap p-3 text-smm font-semibold tracking-wide text-left">
+              <th className="p-3 text-smm font-semibold text-left">
                 Company Name
               </th>
-              <th className="w-34 whitespace-nowrap p-3 text-smm font-semibold tracking-wide text-left">
+              <th className="p-3 text-smm font-semibold text-left">
                 Order When
               </th>
-              <th className="w-34 whitespace-nowrap p-3 text-smm font-semibold tracking-wide text-left">
-                Quantity
-              </th>
-              <th className="w-34 whitespace-nowrap p-3 text-smm font-semibold tracking-wide text-left">
-                Update
-              </th>
-              <th className="w-34 whitespace-nowrap p-3 text-smm font-semibold tracking-wide text-left">
-                Delete
-              </th>
+              <th className="p-3 text-smm font-semibold text-left">Quantity</th>
+              <th className="p-3 text-smm font-semibold text-left">Update</th>
+              <th className="p-3 text-smm font-semibold text-left">Delete</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
@@ -54,7 +59,10 @@ const ShowItems = ({ items, setOpen, handleDeleteItem }: any) => {
                 <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
                   <button
                     className="bg-red-600 cursor-pointer p-2 rounded-lg font-bold text-white"
-                    onClick={() => handleDeleteItem(item._id)}
+                    onClick={() => {
+                      setSelectedItemId(item._id as string);
+                      setShowDeleteModal(true);
+                    }}
                   >
                     <Trash size={20} />
                   </button>
