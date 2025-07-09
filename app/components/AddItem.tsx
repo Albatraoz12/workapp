@@ -201,6 +201,7 @@ const AddItem: React.FC<AddItemProps> = ({ setOpen, refreshItems }) => {
           <Camera
             color="white"
             className="w-auto h-auto bg-green-500 text-white p-2 rounded hover:bg-green-600 cursor-pointer"
+            onClick={() => alert("work in progress")}
           />
         </div>
       </form>
